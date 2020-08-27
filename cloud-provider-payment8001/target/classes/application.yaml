@@ -1,0 +1,49 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-payment-service
+  zipkin:
+    base-url: http://localhost:9411 #指定zipkin的地址
+    sleuth:
+      sampler:
+        probability: 1  #采样率值介于0-1之间,1表示全部采集,不放过所有的数据
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql:///db2019
+    username: root
+    password: root
+
+
+  #  这是由于默认配置下eureka会把自己当成了客户端来注册自己。
+      #（在启动的时候，它会同时把自己当成客户端来注册自己。而在启动的过程中。它自己即使服务端又是客户端。服务端都还没启动好，客户端就去找肯定会报错！）
+    #  所以我们需要禁用它的客户端默认的注册行为
+
+eureka:
+  client:
+    #是否将自己注册到Eureka Server上，默认为true
+    register-with-eureka: true
+
+    #是否从Eureka Server上获取注册信息，默认为true
+    fetch-registry: true
+    #将8001微服务提供者入驻到哪一个EurekaServer,需要指定一个service-url
+    service-url:
+      #defaultZone: http://localhost:7001/eureka  #单机注入
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/   #集群方式注入
+  instance:
+    #修改服务器名称,修改之前访问eureka页面显示的服务器名称为 192.168.0.102:cloud-payment-service:8001
+    instance-id: payment8001
+
+#设置feign的客户端超时时间(openfeign默认支持ribbon)
+ribbon:
+  #建立连接后从服务器读取到可用资源所用的时间
+  ReadTimeout: 5000
+  #建立连接所用的时间
+  ConnectTimeout: 5000
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.atguigu.springcloud.entity
+

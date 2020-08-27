@@ -1,0 +1,43 @@
+server:
+  port: 3344
+
+spring:
+  application:
+    name: cloud-config-center
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/coder-ghh/springcloud-config.git #Github上面仓库的名称
+          ##搜索目录
+          search-paths:
+            - springcloud-config
+      ##读取分支
+      label: master
+
+
+  #rabbitmq相关的配置
+  rabbitmq:
+    host: 192.168.217.128  #我是把rabbitmq安装在虚拟机docker中
+    port: 5672
+    username: guest
+    password: guest
+
+#rabbitmq相关的配置,暴露bus刷新的端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "bus-refresh"
+
+
+eureka:
+  client:
+    #是否将自己注册到Eureka Server上，默认为true
+    register-with-eureka: true
+    service-url:
+     defaultZone: http://localhost:7001/eureka/   #单机注入
+#       defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/   #集群方式注入
+
+
+

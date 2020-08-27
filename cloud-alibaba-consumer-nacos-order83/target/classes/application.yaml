@@ -1,0 +1,14 @@
+server:
+  port: 83
+
+spring:
+  application:
+    name: nacos-order-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.217.128:8848   #Nacos的地址
+
+#负载均衡时需要用到
+service-url:
+  nacos-user-service: http://nacos-payment-provider

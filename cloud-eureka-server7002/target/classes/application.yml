@@ -1,0 +1,20 @@
+server:
+  port: 7002
+
+    #  这是由于默认配置下eureka会把自己当成了客户端来注册自己。
+    #（在启动的时候，它会同时把自己当成客户端来注册自己。而在启动的过程中。它自己即使服务端又是客户端。服务端都还没启动好，客户端就去找肯定会报错！）
+  #  所以我们需要禁用它的客户端默认的注册行为
+eureka:
+  instance:
+    hostname: eureka7002.com  #eureka服务端的实例名称
+  client:
+    #是否将自己注册到Eureka Server上，默认为true
+    register-with-eureka: false
+
+    #是否从Eureka Server上获取注册信息，默认为true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka/
+
+
+

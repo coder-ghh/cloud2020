@@ -1,0 +1,28 @@
+server:
+  port: 3377
+
+spring:
+  application:
+    name: nacos-config-client
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.217.128:8848   #Nacos的地址
+      config:
+        server-addr: 192.168.217.128:8848   #和之前springcloud提供的ConfigServer来实现配置中心不一样
+        file-extension: yaml
+        group: TEST_GROUP
+        namespace: 5743d4d5-8d1d-4fdf-8329-2fce8116e065  #指test命名空间,创建命名空间时生成的流水号,也可以自定义命名空间名称
+
+#  Nacos配置规则(重点)---规定我们怎么读取指定的配置文件]
+
+#  ${prefix}-${spring.profile.active}.${file-extension}
+
+#  prefix:
+#		默认就是当前服务的服务名称
+# 		也可以通过spring.cloud.necos.config.prefix配置
+#  spring.profile.active:
+#		就是我们在application.yml中指定的,当前是开发环境还是测试等环境
+#       这个可以不配置,如果不配置,那么前面的 -  也会没有
+#  file-extension
+#       就是当前文件的格式(后缀),目前只支持yml和properties

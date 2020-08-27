@@ -1,0 +1,33 @@
+server:
+  port: 3366
+
+spring:
+  application:
+    name: config-client
+  cloud:
+    #Config客户端配置
+    config:
+      label: master #分支名称
+      name: config  #配置文件名称
+      profile: dev  #读取后缀名称  三个参数综合起来即可读取yml具体的参数
+      uri: http://localhost:3344 #配置中心地址  访问3355时可以通过访问3344再获取到Git上面的yml
+
+
+  #rabbitmq相关的配置
+  rabbitmq:
+    host: 192.168.217.128  #我是把rabbitmq安装在虚拟机docker中
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/   #单机注入
+
+#暴露监控端口,在3355读取git上面的yml数据时,不能实现实时更新
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
